@@ -1,10 +1,8 @@
 #ifndef TASK_H
 #define TASK_H
-
 #include <iostream>
-#include <string>
-using namespace std;
 
+using namespace std;
 class Task
 {
 private:
@@ -19,8 +17,8 @@ public:
     string getDueDate() const;
     bool isCompleted() const;
     void markCompleted();
-    void setTaskName(const string& name);
-    void setDueDate(const string& date);
+    void setTaskName(const string &name);
+    void setDueDate(const string &date);
 };
 
 #endif

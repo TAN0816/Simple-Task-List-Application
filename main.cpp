@@ -3,35 +3,62 @@
 
 using namespace std;
 
-int main(){
+void menu()
+{
+    cout << "\n===== MENU =====" << endl;
+    cout << "1. Add Task" << endl;
+    cout << "2. View All Tasks" << endl;
+    cout << "3. Mark Task as Completed" << endl;
+    cout << "4. Delete Task" << endl;
+    cout << "5. Sort Tasks by Due Date" << endl;
+    cout << "6. Filter Tasks by Status" << endl;
+    cout << "7. Exit" << endl;
+    cout << "Choose option: ";
+}
+
+void menuOption(int option, TaskFunctions &functions)
+{
+    switch (option)
+    {
+    case 1:
+        functions.addTask();
+        break;
+    case 2:
+        functions.viewAllTasks();
+        break;
+    case 3:
+        functions.markTaskCompleted();
+        break;
+    case 4:
+        functions.deleteTask();
+        break;
+    case 5:
+        functions.sortByDueDate();
+        break;
+    case 6:
+        functions.filterByStatus();
+        break;
+    case 7:
+        cout << "Bye! Thanks for using the Task List Application :)" << endl;
+        break;
+    default:
+        cout << "Please choose a valid option (1-7)!\n";
+    }
+}
+
+int main()
+{
     TaskFunctions functions;
+    int option;
 
-    cout << "=== Task List Application ===\n";
+    cout << "=== Simple Task List Application ===\n";
 
-    int choice;
-    do {
-        cout << "\n--- MENU ---\n";
-        cout << "1. Add Task\n";
-        cout << "2. View All Tasks\n";
-        cout << "3. Exit\n";
-        cout << "Choose an option: ";
-        cin >> choice;
-
-        switch (choice) {
-            case 1:
-                functions.addTask();
-                break;
-            case 2:
-                functions.viewAllTasks();
-                break;
-            case 3:
-                cout << "Exiting... Goodbye!\n";
-                break;
-            default:
-                cout << "Invalid choice! Try again.\n";
-        }
-
-    } while (choice != 3);
+    do
+    {
+        menu();
+        cin >> option;
+        menuOption(option, functions);
+    } while (option != 7);
 
     return 0;
 }
