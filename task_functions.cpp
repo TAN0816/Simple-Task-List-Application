@@ -64,13 +64,16 @@ void TaskFunctions::addTask()
         return;
     }
 
-    cout << "Enter due date (DD/MM/YYYY): ";
-    getline(cin, dueDate);
-
-    if (!isValidDate(dueDate))
+    while (true)
     {
+        cout << "Enter due date (DD/MM/YYYY): ";
+        getline(cin, dueDate);
+
+        if (isValidDate(dueDate))
+        {
+            break;
+        }
         cout << "\nInvalid date format! Please use DD/MM/YYYY\n";
-        return;
     }
 
     tasks.emplace_back(taskName, dueDate);
@@ -152,5 +155,83 @@ void TaskFunctions::deleteTask()
     cout << "\nTask deleted successfully!\n";
 }
 
-void TaskFunctions::sortByDueDate() {}
-void TaskFunctions::filterByStatus(){}
+//sort tasks by due date
+void TaskFunctions::sortByDueDate()
+{
+    if (tasks.empty())
+    {
+        cout << "\nNo tasks available to sort\n";
+        return;
+    }
+
+    vector<Task> sorted = tasks;
+
+    // convert to integer
+    auto toDateInt = [](const string &date)
+    {
+        int day = stoi(date.substr(0, 2));
+        int month = stoi(date.substr(3, 2));
+        int year = stoi(date.substr(6, 4));
+        return year * 10000 + month * 100 + day;
+    };
+
+    for (size_t i = 0; i < sorted.size() - 1; i++)
+    {
+        for (size_t j = 0; j < sorted.size() - i - 1; j++)
+        {
+            if (toDateInt(sorted[j].getDueDate()) > toDateInt(sorted[j + 1].getDueDate()))
+            {
+                swap(sorted[j], sorted[j + 1]);
+            }
+        }
+    }
+
+    cout << "\n============= TASKS SORTED BY DUE DATE ============\n\n";
+    printHeader();
+
+    for (size_t i = 0; i < tasks.size(); i++)
+    {
+        printTasks(i + 1, tasks[i]);
+    }
+}
+
+//filter tasks by status
+void TaskFunctions::filterByStatus()
+{
+    if (tasks.empty())
+    {
+        cout << "\nNo tasks available to filter.\n";
+        return;
+    }
+
+    int option;
+    cout << "\nFilter tasks by status:\n";
+    cout << "1. Completed\n";
+    cout << "2. Pending\n";
+    cout << "Choose an option: ";
+    cin >> option;
+
+    if (option != 1 && option != 2)
+    {
+        cout << "\nInvalid option!\n";
+        return;
+    }
+
+    cout << "\n=========== FILTERED TASKS ===========\n\n";
+    printHeader();
+
+    bool found = false;
+    for (size_t i = 0; i < tasks.size(); i++)
+    {
+        if ((option == 1 && tasks[i].isCompleted()) || (option == 2 && !tasks[i].isCompleted()))
+        {
+            printTasks(i + 1, tasks[i]);
+            found = true;
+        }
+    }
+
+    if (!found)
+    {
+        cout << "\nNo tasks match the selected filter.\n";
+    }
+}
