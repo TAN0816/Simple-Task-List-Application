@@ -12,7 +12,7 @@ void menu()
     cout << "4. Delete Task" << endl;
     cout << "5. Sort Tasks by Due Date" << endl;
     cout << "6. Filter Tasks by Status" << endl;
-    cout << "7. Exit" << endl;
+    cout << "7. Exit" << endl << endl;
     cout << "Choose option: ";
 }
 
